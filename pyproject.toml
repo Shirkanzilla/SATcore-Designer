@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "satcore-designer"
+version = "1.0.0"
+description = ""
+authors = ["Joshua Hertz-Eichenrode <eichenrode@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
