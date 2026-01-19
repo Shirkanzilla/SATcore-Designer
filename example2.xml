@@ -1,0 +1,67 @@
+<chip>
+    <width>40</width>
+    <height>40</height>
+    <components>
+        <!-- CPU core -->
+        <component>
+            <amount>2</amount>
+            <width>10</width>
+            <height>10</height>
+        </component>
+        <!-- Memory blocks -->
+        <component>
+            <amount>4</amount>
+            <width>6</width>
+            <height>8</height>
+        </component>
+        <!-- I/O controllers -->
+        <component>
+            <amount>2</amount>
+            <width>6</width>
+            <height>6</height>
+        </component>
+        <!-- Power blocks -->
+        <component>
+            <amount>3</amount>
+            <width>4</width>
+            <height>4</height>
+        </component>
+        <!-- Temperature sensors -->
+        <component>
+            <amount>4</amount>
+            <width>2</width>
+            <height>2</height>
+        </component>
+    </components>
+    <adjacencies>
+        <!-- Every CPU core must be adjacent to at least one power block -->
+        <adjacency>
+            <comp1>1</comp1>
+            <comp2>4</comp2>
+        </adjacency>
+        <!-- Every memory block must be adjacent to at least one CPU core -->
+        <adjacency>
+            <comp1>2</comp1>
+            <comp2>1</comp2>
+        </adjacency>
+        <!-- Every temperature sensor must be adjacent to any CPU core for thermal regulation -->
+        <adjacency>
+            <comp1>5</comp1>
+            <comp2>1</comp2>
+        </adjacency>
+    </adjacencies>
+    <distances>
+        <!-- CPUs must be far apart to avoid overheating -->
+        <distance>
+            <comp1>1</comp1>
+            <comp2>1</comp2>
+            <value>15</value>
+        </distance>
+        <!-- Power blocks must not be too close to each other -->
+        <distance>
+            <comp1>4</comp1>
+            <comp2>4</comp2>
+            <value>8</value>
+        </distance>
+    </distances>
+</chip>
