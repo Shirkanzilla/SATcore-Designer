@@ -14,7 +14,7 @@ def process_arguments():
     parser.add_argument("--save_path", "-s", help="Path where the image of the chip is saved")
     return parser.parse_args()
 
-def process_xml(path: str) -> (NDArray, NDArray, NDArray, NDArray):
+def process_xml(path: str) -> tuple[NDArray, NDArray, NDArray, NDArray]:
     try:
         xml = ET.parse(path).getroot()
     except:
@@ -49,7 +49,7 @@ def process_xml(path: str) -> (NDArray, NDArray, NDArray, NDArray):
         comp1 = int(dist[0].text)
         comp2 = int(dist[1].text)
         value = int(dist[2].text)
-        distance.append([comp1, comp2, value])
+        distance.append([comp1 - 1, comp2 - 1, value])
     
     return chip_size, components, adjacency, distance
 
@@ -158,18 +158,18 @@ def build_chip_constraints(chip_size: tuple, components: NDArray, adjacancy: NDA
             comp_center_x = (comp_x + comp_width / 2) - 0.5
             comp_center_y = (comp_y + comp_height / 2) - 0.5
             for comp2_x, comp2_y, comp2_is_vertical, comp2_id in components2:
+                if comp_x == comp2_x and comp_y == comp2_y:
+                    continue
                 idx2 = np.where(xyb[:,3] == comp2_id)[0][0]
                 comp2_width = If(comp2_is_vertical, components[idx2][0], components[idx2][1])
                 comp2_height = If(comp2_is_vertical, components[idx2][1], components[idx2][0])
                 comp2_center_x = (comp2_x + comp2_width / 2) - 0.5
                 comp2_center_y = (comp2_y + comp2_height / 2) - 0.5
-                s.add(
-                    Or
-                    (
-                        comp_center_x + comp2_center_x > value,
-                        comp2_center_x + comp_center_x > value,
-                        comp_center_y + comp2_center_y > value,
-                        comp2_center_y + comp_center_y > value,
+                dx = comp_center_x - comp2_center_x
+                dy = comp_center_y - comp2_center_y
+                s.add(Or(
+                        dx * dx >= value * value,
+                        dy * dy >= value * value,
                     ))
 
     if s.check() == sat:
@@ -196,7 +196,10 @@ def map_key2scale(key, n):
 def visualize_result(xyb: NDArray, chip_size: tuple, components: NDArray, model: ModelRef, save_path: str) -> None:
     n = max(np.array(components)[:,2]) + 1
 
-    cmap = plt.get_cmap("tab20", n+1)
+    if n < 12:
+        cmap = plt.get_cmap("Paired", n+1)
+    else:
+        cmap = plt.get_cmap("tab20", n+1)
 
     labels = {
         0: "Unassigned",
@@ -217,11 +220,12 @@ def visualize_result(xyb: NDArray, chip_size: tuple, components: NDArray, model:
     cbar = fig.colorbar(im, ax=ax, ticks=[map_key2scale(key, n) for key in labels.keys()])
     cbar.ax.set_yticklabels(list(labels.values()))
     #plt.show()
-    plt.savefig(save_path) 
+    plt.savefig(save_path)
 
 if __name__ == "__main__":
     args = process_arguments()
     chip_size, components, adjacency, distance = process_xml(args.constraint_file)
+    print(distance)
     print("processing...")
     xyb, model = build_chip_constraints(chip_size, components, adjacency, distance)
     if (model == None):
