@@ -56,15 +56,15 @@
             <height>20</height> 
         </component>
         <component>
-            <amount>3</amount>
+            <amount>2</amount>
             <width>4</width>
             <height>3</height> 
         </component>
     </components>
     <adjacencies>
         <!-- Adjacency requirements can be defined in two ways: -->
-        <!-- If two explicit values are given then every instance of comp1 
-         has to be adjacent to at least one instance of comp2 -->
+        <!-- If two explicit values are given then every instance of comp2 
+         has to be adjacent to at least one instance of comp1 -->
         <!-- <adjacency>
             <comp1>2</comp1>
             <comp2>3</comp2>
@@ -72,8 +72,8 @@
         <!-- The * is a wildcare, i.e., every component needs 
          to be adjacent to at least one instace of comp1 -->
         <adjacency>
-            <comp1>11</comp1>
-            <comp2>*</comp2>
+            <comp1>*</comp1>
+            <comp2>11</comp2>
         </adjacency>
     </adjacencies>
     <distances>

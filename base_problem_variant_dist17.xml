@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chip>
+    <width>30</width>
+    <height>30</height>
+    <components>
+        <!-- Components can be defined as follows: -->
+        <!-- Amount describes how many instances of the component should be present. -->
+        <component>
+            <amount>1</amount>
+            <width>4</width>
+            <height>5</height> 
+        </component>
+        <component>
+            <amount>1</amount>
+            <width>4</width>
+            <height>6</height> 
+        </component>
+        <component>
+            <amount>1</amount>
+            <width>5</width>
+            <height>20</height> 
+        </component>
+        <component>
+            <amount>1</amount>
+            <width>6</width>
+            <height>9</height> 
+        </component>
+        <component>
+            <amount>1</amount>
+            <width>6</width>
+            <height>10</height> 
+        </component>
+        <component>
+            <amount>1</amount>
+            <width>6</width>
+            <height>11</height> 
+        </component>
+        <component>
+            <amount>1</amount>
+            <width>7</width>
+            <height>8</height> 
+        </component>
+        <component>
+            <amount>1</amount>
+            <width>7</width>
+            <height>12</height> 
+        </component>
+        <component>
+            <amount>1</amount>
+            <width>10</width>
+            <height>10</height> 
+        </component>
+        <component>
+            <amount>1</amount>
+            <width>10</width>
+            <height>20</height> 
+        </component>
+        <component>
+            <amount>2</amount>
+            <width>4</width>
+            <height>3</height> 
+        </component>
+    </components>
+    <adjacencies>
+        <!-- Adjacency requirements can be defined in two ways: -->
+        <!-- If two explicit values are given then every instance of comp1 
+         has to be adjacent to at least one instance of comp2 -->
+        <!-- <adjacency>
+            <comp1>2</comp1>
+            <comp2>3</comp2>
+        </adjacency> -->
+        <!-- The * is a wildcare, i.e., every component needs 
+         to be adjacent to at least one instace of comp1 -->
+        <adjacency>
+            <comp1>*</comp1>
+            <comp2>11</comp2>
+        </adjacency>
+    </adjacencies>
+    <distances>
+        <!-- Distance requirements can be defined like this -->
+        <!-- This means that every instance of comp1 has to be at 
+         least value many tiles away from every instance in comp2 (vertically or horizontically).-->
+        <distance>
+            <comp1>11</comp1>
+            <comp2>11</comp2>
+            <value>17</value>
+        </distance>
+    </distances>
+</chip>

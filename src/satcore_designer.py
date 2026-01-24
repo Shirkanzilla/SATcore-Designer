@@ -130,8 +130,8 @@ def build_chip_constraints(chip_size: tuple, components: NDArray, adjacancy: NDA
             components2 = xyb[xyb[:,3] == comp2]
             components1 = xyb[np.invert(np.isin(xyb[:,3], components2[:,3]))]
         elif comp2 == "*":
-            components2 = xyb[xyb[:,3] == comp1]
-            components1 = xyb[np.invert(np.isin(xyb[:,3], components2[:,3]))]    
+            components1 = xyb[xyb[:,3] == comp1]
+            components2 = xyb[np.invert(np.isin(xyb[:,3], components1[:,3]))]    
         else:
             components1 = xyb[xyb[:,3] == comp1]
             components2 = xyb[xyb[:,3] == comp2]
@@ -168,8 +168,8 @@ def build_chip_constraints(chip_size: tuple, components: NDArray, adjacancy: NDA
                 dx = comp_center_x - comp2_center_x
                 dy = comp_center_y - comp2_center_y
                 s.add(Or(
-                        dx * dx >= value * value,
-                        dy * dy >= value * value,
+                        Abs(dx) > value,
+                        Abs(dy) > value,
                     ))
 
     if s.check() == sat:
@@ -225,7 +225,6 @@ def visualize_result(xyb: NDArray, chip_size: tuple, components: NDArray, model:
 if __name__ == "__main__":
     args = process_arguments()
     chip_size, components, adjacency, distance = process_xml(args.constraint_file)
-    print(distance)
     print("processing...")
     xyb, model = build_chip_constraints(chip_size, components, adjacency, distance)
     if (model == None):
@@ -237,4 +236,4 @@ if __name__ == "__main__":
         if args.save_path:
             save_path = args.save_path
         visualize_result(xyb, chip_size, components, model, save_path)
-        sys.exit(0)
+        

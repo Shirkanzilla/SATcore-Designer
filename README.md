@@ -16,16 +16,19 @@ SATcore-Designer allows you to design chip layouts by defining components and co
 ### Prerequisites
 
 - Python 3.12.3
-- Dependencies listed in the pyproject.toml file
+- Virtual environment with z3, matplotlib and numpy
 
 ### Usage
 
-1. Create a virtual environment with poetry install and source it 
-2. Define your chip layout in an XML file (see example.xml for format and usage)
-3. Run the designer in the terminal to generate a valid placement or an unsat
+1. Create a virtual environment and install z3, numpy and matplotlib
+2. Define your chip layout in an XML file (see base_problem.xml for format and usage)
+3. Run the designer in the terminal to generate a valid placement or an unsat with the following command:
+```bash
+$ satcore_designer.py specification.xml -s file_name
+```
 
 ## Project Structure
 
 - 'src': Main SAT-based layout solver
-- 'example.xml': Sample xml file
+- 'base_problem.xml' and other xml files: Sample xml files
 - 'earlier files/': Jupyter notebooks for experimentation and tutorials
